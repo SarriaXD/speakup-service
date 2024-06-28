@@ -9,6 +9,6 @@ class SpeakupController {
 
     @GetMapping("hello/{text}")
     fun sayHello(@PathVariable("text") text: String): String {
-        return text
+        return "response $text"
     }
 }
