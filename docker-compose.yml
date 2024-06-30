@@ -3,6 +3,9 @@ services:
   java:
     image: openjdk:17-jdk-slim
 
+  video-transform-service:
+    image: sarriaq/video-transform-service:latest
+
   database:
     image: postgres:latest
     environment:

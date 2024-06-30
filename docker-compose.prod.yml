@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  speakup-service:
+    image: speakup-service:latest
+    ports:
+      - "80:8080"
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    depends_on:
+      - sarriaq/video-transform-service
+
+  video-transform-service:
+    image: sarriaq/video-transform-service:latest
