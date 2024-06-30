@@ -25,8 +25,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/speakup-service:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/speakup-service:latest
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/speakup-service:latest --push.
 
       - name: Transfer docker-compose file
         uses: appleboy/scp-action@master
