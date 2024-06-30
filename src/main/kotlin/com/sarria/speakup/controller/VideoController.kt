@@ -10,6 +10,13 @@ class VideoController(
     private val videoService: VideoService
 ) {
 
+    @GetMapping("/getVideos")
+    fun getVideos(): String {
+        // transform to json
+        val videos = videoService.getVideos()
+        return "$videos"
+    }
+
     @GetMapping("/getVideo")
     fun getVideo(@RequestParam originalVideoPath: String): String {
         return videoService.getVideo(originalVideoPath)
