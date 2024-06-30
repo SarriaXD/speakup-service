@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   speakup-service:
-    image: speakup-service:latest
+    image: sarriaq/speakup-service:latest
     ports:
       - "80:8080"
     environment:
