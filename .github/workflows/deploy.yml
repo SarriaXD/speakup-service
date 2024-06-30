@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           source: "docker-compose.prod.yml"
-          target: "/speakup-service/"
+          target: "speakup-service"
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.3
