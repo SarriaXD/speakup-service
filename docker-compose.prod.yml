@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   speakup-service:
     image: sarriaq/speakup-service:latest
