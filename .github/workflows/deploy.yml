@@ -27,15 +27,19 @@ jobs:
           docker buildx create --use
           docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/speakup-service:latest --push .
 
-      - name: Transfer docker-compose file
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          port: 22
-          source: "docker-compose.prod.yml"
-          target: "speakup-service"
+      - name: Upload file to EC2 and Rename
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          # Save SSH key to file
+          echo "$EC2_SSH_KEY" > ec2_ssh_key.pem
+          chmod 600 ec2_ssh_key.pem
+          
+          # Upload file and rename
+          scp -i ec2_ssh_key.pem docker-compose.prod.yml $EC2_USER@$EC2_HOST:speakup-service
+          ssh -i ec2_ssh_key.pem $EC2_USER@$EC2_HOST "mv speakup-service/docker-compose.prod.yml speakup-service/docker-compose.yml"          
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.3
@@ -47,5 +51,5 @@ jobs:
           script: |
             cd speakup-service
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker-compose -f docker-compose.prod.yml pull
-            docker-compose -f docker-compose.prod.yml up -d
+            docker-compose -f docker-compose.yml pull
+            docker-compose -f docker-compose.yml up -d
