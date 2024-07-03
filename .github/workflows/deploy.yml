@@ -29,12 +29,12 @@ jobs:
 
       - name: Upload file to EC2 and Rename
         env:
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_KEY: ${{ secrets.EC2_KEY }}
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           # Save SSH key to file
-          echo "$EC2_SSH_KEY" > ec2_ssh_key.pem
+          echo "$EC2_KEY" > ec2_ssh_key.pem
           chmod 600 ec2_ssh_key.pem
           
           # Upload file and rename
